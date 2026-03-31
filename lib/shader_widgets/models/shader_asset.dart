@@ -11,9 +11,10 @@ final class ShaderAsset {
     ShaderAsset(fileName: 'fast_bolls', usePointer: false),
   ];
 
-  static const List<ShaderAsset> smaplesWithInteractions = [
+  static const List<ShaderAsset> samplesWithInteractions = [
     ShaderAsset(fileName: 'fun_shader', usePointer: true),
     ShaderAsset(fileName: 'laser_shader', usePointer: true),
+    ShaderAsset(fileName: 'sea_shader', usePointer: true),
     ShaderAsset(fileName: 'beautiful_shader', usePointer: true),
   ];
 }

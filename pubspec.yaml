@@ -30,5 +30,6 @@ flutter:
     - assets/shaders/fast_bolls.frag
     - assets/shaders/fun_shader.frag
     - assets/shaders/beautiful_shader.frag
+    - assets/shaders/sea_shader.frag
 
   uses-material-design: true

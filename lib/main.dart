@@ -47,7 +47,7 @@ class RouteScreen extends StatelessWidget {
                         return ShadersScreen(
                           items: index == 0
                               ? ShaderAsset.samples
-                              : ShaderAsset.smaplesWithInteractions,
+                              : ShaderAsset.samplesWithInteractions,
                         );
                       },
                     ),

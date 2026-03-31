@@ -382,7 +382,7 @@ void main() {
     float gx = (iMouse.x - 0.5) * TAU;
     float gy = (iMouse.y - 0.5) * PI;
 
-    // Склажение двух вращений
+    // Слажение двух вращений
     mat3 autoRot = rot(normalize(r0), normalize(r1));
     mat3 gestureRot = rot(
     normalize(vec3(1.0, sin(gy), cos(gy))),
