@@ -1,0 +1,33 @@
+name: shader_app
+description: "A new Flutter project."
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  sensors_plus: ^7.0.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  shaders:
+    - assets/shaders/3d_shader.frag
+    - assets/shaders/bolls_shader.frag
+    - assets/shaders/cosmos_shader.frag
+    - assets/shaders/laser_shader.frag
+    - assets/shaders/fast_bolls.frag
+    - assets/shaders/fun_shader.frag
+
+  uses-material-design: true
