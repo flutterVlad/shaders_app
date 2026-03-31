@@ -22,8 +22,12 @@ class ShaderWrapper extends StatefulWidget {
 }
 
 class _ShaderWrapperState extends State<ShaderWrapper> {
-  Offset mouse = Offset.zero;
-  Offset _targetMouse = Offset.zero;
+  Offset _gestureTarget = Offset.zero;
+  Offset _gestureCurrent = Offset.zero;
+
+  Offset _accelTarget = Offset.zero;
+  Offset _accelCurrent = Offset.zero;
+
   StreamSubscription? _subscription;
 
   @override
@@ -33,7 +37,7 @@ class _ShaderWrapperState extends State<ShaderWrapper> {
     if (widget.useMouse) {
       // Акселерометр только обновляет цель, без setState
       _subscription = accelerometerEventStream().listen((event) {
-        _targetMouse = Offset(
+        _accelTarget = Offset(
           (event.x / 10.0).clamp(-1.0, 1.0) * 0.5 + 0.5,
           (event.y / 10.0).clamp(-1.0, 1.0) * 0.5 + 0.5,
         );
@@ -50,16 +54,40 @@ class _ShaderWrapperState extends State<ShaderWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    mouse = Offset(
-      lerpDouble(mouse.dx, _targetMouse.dx, 0.08)!,
-      lerpDouble(mouse.dy, _targetMouse.dy, 0.08)!,
-    );
+    if (widget.useMouse) {
+      // Жест — быстрее (0.15), но плавно
+      _gestureCurrent = Offset(
+        lerpDouble(_gestureCurrent.dx, _gestureTarget.dx, 0.15)!,
+        lerpDouble(_gestureCurrent.dy, _gestureTarget.dy, 0.15)!,
+      );
 
-    return CustomPaint(
-      painter: ShaderPainter(
-        shader: widget.shader,
-        time: widget.time,
-        mouse: widget.useMouse ? mouse : null,
+      // Наклон — медленнее (0.05), очень плавно
+      _accelCurrent = Offset(
+        lerpDouble(_accelCurrent.dx, _accelTarget.dx, 0.05)!,
+        lerpDouble(_accelCurrent.dy, _accelTarget.dy, 0.05)!,
+      );
+    }
+
+    final mouse = widget.useMouse
+        ? Offset(
+            (_gestureCurrent.dx + _accelCurrent.dx) / 2,
+            (_gestureCurrent.dy + _accelCurrent.dy) / 2,
+          )
+        : null;
+
+    return GestureDetector(
+      onPanUpdate: (details) {
+        _gestureTarget = Offset(
+          (_gestureTarget.dx + details.delta.dx / 300).clamp(0.0, 1.0),
+          (_gestureTarget.dy + details.delta.dy / 300).clamp(0.0, 1.0),
+        );
+      },
+      child: CustomPaint(
+        painter: ShaderPainter(
+          shader: widget.shader,
+          time: widget.time,
+          mouse: mouse,
+        ),
       ),
     );
   }

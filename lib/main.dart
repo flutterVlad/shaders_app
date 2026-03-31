@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shader_app/shader_widgets/models/shader_asset.dart';
-import 'package:shader_app/shader_widgets/shaders_screen.dart';
 
-import '/shader_widgets/shader_view.dart';
+import '/shader_widgets/models/shader_asset.dart';
+import '/shader_widgets/shaders_screen.dart';
 
 void main() {
   runApp(const MyApp());

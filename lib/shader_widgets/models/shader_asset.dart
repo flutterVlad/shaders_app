@@ -14,5 +14,6 @@ final class ShaderAsset {
   static const List<ShaderAsset> smaplesWithInteractions = [
     ShaderAsset(fileName: 'fun_shader', usePointer: true),
     ShaderAsset(fileName: 'laser_shader', usePointer: true),
+    ShaderAsset(fileName: 'beautiful_shader', usePointer: true),
   ];
 }

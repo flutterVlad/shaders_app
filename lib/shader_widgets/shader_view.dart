@@ -54,6 +54,13 @@ class _ShaderViewState extends State<ShaderView> {
               ],
             ),
           );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Error: ${snapshot.error}\n${snapshot.stackTrace}',
+              style: TextStyle(fontSize: 10),
+            ),
+          );
         }
 
         return Center(child: Text("No data"));

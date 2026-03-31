@@ -29,5 +29,6 @@ flutter:
     - assets/shaders/laser_shader.frag
     - assets/shaders/fast_bolls.frag
     - assets/shaders/fun_shader.frag
+    - assets/shaders/beautiful_shader.frag
 
   uses-material-design: true
