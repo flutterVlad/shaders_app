@@ -22,11 +22,11 @@ class ShaderWrapper extends StatefulWidget {
 }
 
 class _ShaderWrapperState extends State<ShaderWrapper> {
-  Offset _gestureTarget = Offset.zero;
-  Offset _gestureCurrent = Offset.zero;
+  Offset _gestureTarget = const Offset(0.5, 0.5);
+  Offset _gestureCurrent = const Offset(0.5, 0.5);
 
-  Offset _accelTarget = Offset.zero;
-  Offset _accelCurrent = Offset.zero;
+  Offset _accelTarget = const Offset(0.5, 0.5);
+  Offset _accelCurrent = const Offset(0.5, 0.5);
 
   StreamSubscription? _subscription;
 
@@ -77,16 +77,20 @@ class _ShaderWrapperState extends State<ShaderWrapper> {
 
     return GestureDetector(
       onPanUpdate: (details) {
+        final box = context.findRenderObject() as RenderBox;
+        final size = box.size;
         _gestureTarget = Offset(
-          (_gestureTarget.dx + details.delta.dx / 300).clamp(0.0, 1.0),
-          (_gestureTarget.dy + details.delta.dy / 300).clamp(0.0, 1.0),
+          (details.localPosition.dx / size.width).clamp(0.0, 1.0),
+          (details.localPosition.dy / size.height).clamp(0.0, 1.0),
         );
       },
-      child: CustomPaint(
-        painter: ShaderPainter(
-          shader: widget.shader,
-          time: widget.time,
-          mouse: mouse,
+      child: SizedBox.expand(
+        child: CustomPaint(
+          painter: ShaderPainter(
+            shader: widget.shader,
+            time: widget.time,
+            mouse: mouse,
+          ),
         ),
       ),
     );

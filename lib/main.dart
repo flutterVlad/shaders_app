@@ -23,6 +23,11 @@ class MyApp extends StatelessWidget {
 class RouteScreen extends StatelessWidget {
   const RouteScreen({super.key});
 
+  static const Map<int, List<ShaderAsset>> _shaders = {
+    0: ShaderAsset.samples,
+    1: ShaderAsset.samplesWithInteractions,
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,52 +36,61 @@ class RouteScreen extends StatelessWidget {
         forceMaterialTransparency: true,
       ),
       body: ListView.separated(
-        itemCount: 2,
+        itemCount: _shaders.length,
+        padding: const .fromLTRB(16, 16, 16, 0),
         separatorBuilder: (_, _) => const SizedBox(height: 16),
         itemBuilder: (_, index) {
-          return Padding(
-            padding: const .symmetric(horizontal: 16),
-            child: Material(
-              elevation: 1,
-              borderRadius: .circular(16),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ShadersScreen(
-                          items: index == 0
-                              ? ShaderAsset.samples
-                              : ShaderAsset.samplesWithInteractions,
-                        );
-                      },
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: .symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    borderRadius: .circular(16),
-                    color: Colors.blue,
-                    boxShadow: [BoxShadow(color: Colors.grey)],
-                  ),
-                  child: ListTile(
-                    contentPadding: .zero,
-                    title: Text(
-                      "Shaders ${index != 0 ? 'with interactions' : ''}",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    trailing: Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+          return _ListTile(index: index, items: _shaders[index]!);
+        },
+      ),
+    );
+  }
+}
+
+class _ListTile extends StatelessWidget {
+  const _ListTile({required this.index, required this.items});
+
+  final int index;
+  final List<ShaderAsset> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 1,
+      borderRadius: .circular(16),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return ShadersScreen(items: items);
+              },
             ),
           );
         },
+        child: Container(
+          height: 48,
+          padding: const .symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            borderRadius: .circular(16),
+            color: Colors.blue,
+            boxShadow: const [BoxShadow(color: Colors.grey)],
+          ),
+          child: Row(
+            mainAxisAlignment: .spaceBetween,
+            children: [
+              Text(
+                "Shaders ${index != 0 ? 'with interactions' : ''}",
+                style: const TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              const Icon(
+                Icons.keyboard_arrow_right,
+                size: 30,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
